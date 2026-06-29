@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dialectica - Master the Art of Debate</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons Script -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
@@ -15,21 +18,22 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #ffffff;
             overflow-x: hidden;
+            transition: background-color 0.5s ease;
         }
-        /* Custom Text Gradient for 'Art of Debate' & 'an exceptional speaker.' */
+        body.dark-mode {
+            background-color: #0b1324;
+        }
         .text-gradient-blue-green {
             background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* Radial background glow effects matching the screenshot */
         .glow-bg-top-right {
             background: radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, rgba(255, 255, 255, 0) 50%);
         }
         .glow-bg-bottom-left {
             background: radial-gradient(circle at 10% 90%, rgba(16, 185, 129, 0.06) 0%, rgba(255, 255, 255, 0) 50%);
         }
-        /* Custom Audio Waveform Animation */
         @keyframes wave {
             0%, 100% { height: 12px; }
             50% { height: 40px; }
@@ -37,62 +41,68 @@
         .wave-bar {
             animation: wave 1.2s ease-in-out infinite;
         }
-        /* Add slight variation to wave delays for realism */
         .wave-bar:nth-child(even) { animation-delay: 0.2s; }
         .wave-bar:nth-child(3n) { animation-delay: 0.4s; }
         .wave-bar:nth-child(4n) { animation-delay: 0.6s; }
+        
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
-    
-    <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
-    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
-<body class="relative min-h-screen glow-bg-top-right glow-bg-bottom-left text-[#0f172a] antialiased">
+<body id="pageBody" class="relative min-h-screen glow-bg-top-right glow-bg-bottom-left text-[#0f172a] antialiased">
 
-    <header class="max-w-7xl mx-auto px-6 sm:px-12 py-6 flex justify-between items-center">
-        <div class="flex items-center space-x-2 cursor-pointer">
+    <!-- NAVIGATION HEADER -->
+    <header class="max-w-7xl mx-auto px-6 sm:px-12 py-6 flex justify-between items-center relative z-20">
+        <div onclick="showLandingPage()" class="flex items-center space-x-2 cursor-pointer">
             <div class="w-7 h-7 bg-gradient-to-tr from-blue-500 to-emerald-400 rounded-lg flex items-center justify-center shadow-sm">
                 <i data-lucide="mic" class="w-4 h-4 text-white"></i>
             </div>
-            <span class="text-lg font-bold tracking-tight text-[#0f172a]">Dialectica</span>
+            <span id="logoText" class="text-lg font-bold tracking-tight text-[#0f172a] transition-colors duration-300">Dialectica</span>
         </div>
         <div class="flex items-center space-x-6">
-            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition">Sign In</a>
-            <button class="bg-[#3b82f6] hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition shadow-sm">
+            <a href="#" id="signInLink" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-300">Sign In</a>
+            <button onclick="showComingSoonPage()" id="navCta" class="bg-[#3b82f6] hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition shadow-sm">
                 Get Started
             </button>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 sm:px-12 pt-16 pb-24 text-center">
-        
+    <!-- MAIN LANDING VIEW -->
+    <div id="landingView" class="max-w-7xl mx-auto px-6 sm:px-12 pt-16 pb-24 text-center block transition-all duration-300">
+        <!-- Badge -->
         <div class="inline-flex items-center space-x-1.5 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-full mb-6 shadow-sm">
             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-500"></i>
             <span class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Voice-first AI speaking coach</span>
         </div>
 
+        <!-- Hero Title -->
         <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight max-w-3xl mx-auto leading-[1.15]">
             Master the <br>
             <span class="text-gradient-blue-green">Art of Debate</span>
         </h1>
 
+        <!-- Description -->
         <p class="mt-6 text-gray-500 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Practice public speaking, debate with AI opponents, ace interviews, and join a community of eloquent speakers. Real-time voice analysis, performance tracking, and expert feedback.
         </p>
 
+        <!-- CTA Trigger Buttons -->
         <div class="mt-10 flex items-center justify-center space-x-4">
-            <button class="bg-[#3b82f6] hover:bg-blue-600 text-white font-medium text-sm px-6 py-3 rounded-xl flex items-center space-x-2 transition shadow-md shadow-blue-500/10">
+            <button onclick="showComingSoonPage()" class="bg-[#3b82f6] hover:bg-blue-600 text-white font-medium text-sm px-6 py-3 rounded-xl flex items-center space-x-2 transition shadow-md shadow-blue-500/10">
                 <span>Start Speaking</span>
                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </button>
@@ -101,21 +111,20 @@
             </button>
         </div>
 
+        <!-- Central Wave Box -->
         <div class="mt-16 max-w-3xl mx-auto bg-[#0a192f] rounded-2xl p-12 shadow-2xl relative border border-gray-800 flex flex-col items-center justify-center aspect-[2.2/1]">
             <div class="w-16 h-16 bg-gradient-to-tr from-blue-500 to-emerald-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/20 relative z-10 mb-8">
                 <i data-lucide="mic" class="w-7 h-7 text-white"></i>
                 <div class="absolute inset-0 bg-emerald-400 rounded-full blur-md opacity-40 -z-10 animate-pulse"></div>
             </div>
-
-            <div id="visualizer" class="flex items-end justify-center space-x-1.5 h-12 mb-6 w-full max-w-md">
-                </div>
-
+            <div id="visualizer" class="flex items-end justify-center space-x-1.5 h-12 mb-6 w-full max-w-md"></div>
             <div class="flex items-center space-x-2 text-[11px] font-bold uppercase tracking-widest text-gray-400">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
                 <span>Live • AI Listening</span>
             </div>
         </div>
 
+        <!-- Features Section -->
         <div class="mt-32 mb-16">
             <span class="text-[11px] font-bold text-blue-500 uppercase tracking-widest block mb-3">Powerful Features</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight max-w-2xl mx-auto">
@@ -124,108 +133,150 @@
             </h2>
         </div>
 
+        <!-- Grid Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                 <div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5">
-                        <i data-lucide="users" class="w-5 h-5"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5"><i data-lucide="users" class="w-5 h-5"></i></div>
                     <h3 class="font-bold text-base text-gray-900 mb-2">AI Debate Opponent</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">Spar with a sharp, fact-loaded AI partner across hundreds of topics.</p>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                 <div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5">
-                        <i data-lucide="cpu" class="w-5 h-5"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5"><i data-lucide="cpu" class="w-5 h-5"></i></div>
                     <h3 class="font-bold text-base text-gray-900 mb-2">Powered by Gemini 3</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">Top-tier reasoning meets adaptive difficulty for serious practice.</p>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                 <div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5">
-                        <i data-lucide="mic-2" class="w-5 h-5"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5"><i data-lucide="mic-2" class="w-5 h-5"></i></div>
                     <h3 class="font-bold text-base text-gray-900 mb-2">Voice-First Speaking</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">Speak naturally — Whisper transcribes, the AI replies out loud.</p>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5">
-                        <i data-lucide="trending-up" class="w-5 h-5"></i>
-                    </div>
-                    <h3 class="font-bold text-base text-gray-900 mb-2">Performance Analytics</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Track tone, clarity, pacing, filler words and engagement.</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5">
-                        <i data-lucide="trophy" class="w-5 h-5"></i>
-                    </div>
-                    <h3 class="font-bold text-base text-gray-900 mb-2">Score & Improve</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Get a graded session report with strengths and growth areas.</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mb-5">
-                        <i data-lucide="briefcase" class="w-5 h-5"></i>
-                    </div>
-                    <h3 class="font-bold text-base text-gray-900 mb-2">Interview Prep</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Mock interviews tailored to roles with instant AI feedback.</p>
-                </div>
-            </div>
         </div>
 
+        <!-- Bottom CTA -->
         <div class="mt-32 max-w-5xl mx-auto bg-[#0a192f] text-white rounded-3xl p-12 sm:p-16 relative overflow-hidden border border-gray-800 shadow-xl">
             <div class="relative z-10 flex flex-col items-center justify-center text-center">
                 <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Find your voice. Win the room.</h2>
                 <p class="text-gray-400 text-xs sm:text-sm mb-8 font-medium">Free to start. No credit card. Just plug in your headphones and speak.</p>
-                <button class="bg-[#3b82f6] hover:bg-blue-600 text-white font-medium text-sm px-6 py-3 rounded-xl flex items-center space-x-2 transition shadow-md">
+                <button onclick="showComingSoonPage()" class="bg-[#3b82f6] hover:bg-blue-600 text-white font-medium text-sm px-6 py-3 rounded-xl flex items-center space-x-2 transition shadow-md">
                     <span>Get Started Free</span>
                     <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
+    </div>
 
-    </main>
 
-    <footer class="text-center py-8 text-[11px] text-gray-400 border-t border-gray-100">
+    <!-- CLEAN FULL PAGE COMING SOON VIEW (Exact Color Palette from Reference Image) -->
+    <div id="comingSoonView" class="max-w-3xl mx-auto px-6 pt-24 pb-24 text-center text-white hidden">
+        
+        <!-- Top Custom Icon -->
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-blue-500 to-emerald-400 rounded-2xl shadow-lg mb-8 relative">
+            <i data-lucide="rocket" class="w-6 h-6 text-white"></i>
+            <div class="absolute inset-0 bg-blue-400 rounded-2xl blur-md opacity-40 -z-10 animate-pulse"></div>
+        </div>
+
+        <!-- Clean coming soon statement layouts -->
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Something powerful is coming.</h1>
+        <p class="text-gray-400 text-sm sm:text-base max-w-md mx-auto mb-12 leading-relaxed">
+            Dialectica is tailoring an unprecedented AI voice ecosystem. We are currently configuring live coaching spaces.
+        </p>
+
+        <!-- Waitlist Input Area Setup -->
+        <div class="bg-[#0e1b30] rounded-2xl p-8 border border-gray-800/80 shadow-2xl max-w-md mx-auto mb-8">
+            <div class="flex flex-col gap-3">
+                <input type="email" placeholder="Enter email for early access access" class="w-full text-sm bg-[#0a1120] border border-gray-800 rounded-xl py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition">
+                <button onclick="alert('Welcome to the waitlist!')" class="w-full bg-[#3b82f6] hover:bg-blue-600 text-white font-semibold text-sm py-3 rounded-xl transition shadow-md">
+                    Notify Me At Launch
+                </button>
+            </div>
+        </div>
+
+        <!-- Back Link Navigation Element -->
+        <button onclick="showLandingPage()" class="inline-flex items-center space-x-2 text-xs font-semibold text-gray-500 hover:text-white transition duration-200">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Return to Home</span>
+        </button>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer id="footerSection" class="text-center py-8 text-[11px] text-gray-400 border-t border-gray-100 transition-colors duration-300">
         © 2026 Dialectica - Crafted for speakers, debaters & dreamers.
     </footer>
 
+
+    <!-- JAVASCRIPT ACTIONS -->
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Dynamically build the stylized visualizer waveform bar setup shown in the mockup
+        // Audio waveform generator setup
         const visualizerContainer = document.getElementById('visualizer');
         const totalBars = 32;
-
-        // Custom preset colors for the visualizer gradient layout (Blue to Green spectrum)
         const colors = ['#3b82f6', '#60a5fa', '#34d399', '#10b981', '#059669'];
 
         for (let i = 0; i < totalBars; i++) {
             const bar = document.createElement('div');
             bar.className = 'wave-bar w-[3px] rounded-full';
-            
-            // Assign custom wave color based on position to simulate a visualizer gradient
             const colorIndex = Math.floor((i / totalBars) * colors.length);
             bar.style.backgroundColor = colors[colorIndex];
-            
-            // Randomize duration slightly for an organic movement feel
             bar.style.animationDuration = `${0.6 + Math.random() * 0.8}s`;
-            
             visualizerContainer.appendChild(bar);
+        }
+
+        // VIEW SWAPPING TRANSITION LOGIC
+        const body = document.getElementById('pageBody');
+        const landingView = document.getElementById('landingView');
+        const comingSoonView = document.getElementById('comingSoonView');
+        const logoText = document.getElementById('logoText');
+        const signInLink = document.getElementById('signInLink');
+        const navCta = document.getElementById('navCta');
+        const footerSection = document.getElementById('footerSection');
+
+        function showComingSoonPage() {
+            landingView.classList.add('fade-out');
+            
+            setTimeout(() => {
+                landingView.classList.add('hidden');
+                comingSoonView.classList.remove('hidden');
+                comingSoonView.classList.add('fade-in');
+                
+                // Toggle page color tone elements
+                body.classList.add('dark-mode');
+                logoText.classList.add('text-white');
+                signInLink.classList.add('text-gray-400', 'hover:text-white');
+                footerSection.classList.add('border-gray-900', 'text-gray-600');
+                navCta.classList.add('hidden'); 
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
+
+        function showLandingPage() {
+            comingSoonView.classList.add('fade-out');
+            
+            setTimeout(() => {
+                comingSoonView.classList.add('hidden');
+                comingSoonView.classList.remove('fade-in', 'fade-out');
+                
+                landingView.classList.remove('hidden', 'fade-out');
+                landingView.classList.add('fade-in');
+                
+                // Restore default clean layout templates
+                body.classList.remove('dark-mode');
+                logoText.classList.remove('text-white');
+                signInLink.classList.remove('text-gray-400', 'hover:text-white');
+                footerSection.classList.remove('border-gray-900', 'text-gray-600');
+                navCta.classList.remove('hidden');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
         }
     </script>
 </body>

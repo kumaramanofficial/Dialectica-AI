@@ -1,0 +1,26 @@
+{
+  "short_name": "Dialectica",
+  "name": "Dialectica — AI Debate & Interview Prep",
+  "description": "Voice-first AI debate, interview prep & public speaking coach.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#0a1628",
+  "background_color": "#0a1628",
+  "categories": ["education", "productivity", "lifestyle"]
+}
